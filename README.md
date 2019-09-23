@@ -1,8 +1,7 @@
 # alkfejl_2019_1
 
-**A projekt aktív.**
-
-**Egyszerű timer app, ahol a**
+**Egyszerű timer app, amiben Rubik-kocka kirakás időeredményt mérniés kezelni lehet.
+Más felhasználók eredményeinek követésére is lehetőséget ad.**
 
 Beadandó feladat az ELTE Informatikai Karon, az Alkalmazások fejlesztése nevű tárgyból.
 
@@ -33,9 +32,10 @@ Beadandó feladat az ELTE Informatikai Karon, az Alkalmazások fejlesztése nev�
 
 ### Szakterületi fogalomjegyzék
 
-- **Kocka:**
--
--
+- **Kocka:** Kirakós játék, amelyet időre rak ki a felhasználó. (pl.: 3x3x3-as Rubik kocka, 4x4x4-es Rubik-kocka, Skewb, Megaminx, stb.)
+- **Kirakás:** Adott kocka kirakása, amelyhez tartozik az elért időeredmény, a kirakó személy, illetve a keverés lépései is.
+- **Szett:** 5 kirakás halmaza, amelyből az átlagoot számolják. A szett eredményét a legjobb és legroszabb időeredmény kivétele után, a maradék 3 eredmény átlaga adja. Érvénytelen kirakás automatikusan a legroszabb eredménynek számít. Legalább két érvénytelen kirakás esetén a szett érvénytelen.
+- **Érvényes kirakás:** A kirakás érvényes, ha a keverés a nemzetközileg elfogadott keverési algoritmus alapján történik, illetve, ha a stopper csak a kocka kirakása után állítódik meg. Ha a kocka csupán egy fordítással marad el a kirakott állapottól, akkor az időeredményhez +2 másodperces büntetés adódik. Ha a kocka legalább két fordítással marad el a kirakott állapottól, akkor a kirakás érvénytelen.
 
 ### Szerepkörök
 
