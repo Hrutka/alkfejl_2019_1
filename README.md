@@ -1,5 +1,5 @@
 # Alkalmazások fejlesztése beadandó feladat
-### Molnár Adrián és Molnár Dominik munkája
+*Molnár Adrián és Molnár Dominik munkája*
 ### Rubik-kocka timer app
 
 **Timer app, amiben Rubik-kocka kirakás időeredményt mérniés kezelni lehet.
