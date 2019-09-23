@@ -1,6 +1,8 @@
-# alkfejl_2019_1
+# Alkalmazások fejlesztése beadandó feladat
+### Molnár Adrián és Molnár Dominik munkája
+### Rubik-kocka timer app
 
-**Egyszerű timer app, amiben Rubik-kocka kirakás időeredményt mérniés kezelni lehet.
+**Timer app, amiben Rubik-kocka kirakás időeredményt mérniés kezelni lehet.
 Más felhasználók eredményeinek követésére is lehetőséget ad.**
 
 Beadandó feladat az ELTE Informatikai Karon, az Alkalmazások fejlesztése nevű tárgyból.
