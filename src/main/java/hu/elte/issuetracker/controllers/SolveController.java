@@ -32,6 +32,7 @@ public class SolveController {
         return ResponseEntity.ok(solve.get());
     }
 
+    // TODO Ezt hogyan kell ellenőrizni? Hogy adjak be neki Sessiont?
     @PostMapping("")
     public ResponseEntity<Solve> post(@RequestBody Solve solve) {
         Solve newSolve = solveRepository.save(solve);
@@ -48,7 +49,7 @@ public class SolveController {
 
         solveRepository.delete(solve.get());
 
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{id}")
@@ -62,6 +63,4 @@ public class SolveController {
         solve.setId(id);
         return ResponseEntity.ok(solveRepository.save(solve));
     }
-
-    //TODO: GET by id, DELETE, POST, PUT
 }

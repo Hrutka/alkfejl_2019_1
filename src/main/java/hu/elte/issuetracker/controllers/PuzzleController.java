@@ -34,13 +34,13 @@ public class PuzzleController {
 
     @PostMapping("")
     public ResponseEntity<Puzzle> post(@RequestBody Puzzle puzzle) {
-        Puzzle puzzleWithName = puzzleRepository.findByName(puzzle.getName());
-        if(puzzle!=null){
+        Optional<Puzzle> puzzleWithName = puzzleRepository.findByName(puzzle.getName());
+        if(puzzleWithName.isPresent()){
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
         Puzzle newPuzzle = puzzleRepository.save(puzzle);
         return ResponseEntity.ok(newPuzzle);
-}
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Integer id) {
@@ -52,11 +52,12 @@ public class PuzzleController {
 
         puzzleRepository.delete(puzzle.get());
 
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Puzzle> put(@PathVariable Integer id, @RequestBody Puzzle puzzle) {
+        // TODO ha PUT-al probalsz meg adatoakt duplikalni akkor kapsz egy 500-ast
         Optional<Puzzle> oldPuzzle = puzzleRepository.findById(id);
         if (!oldPuzzle.isPresent())
         {
