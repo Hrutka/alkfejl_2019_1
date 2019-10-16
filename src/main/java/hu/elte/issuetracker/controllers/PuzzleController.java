@@ -3,9 +3,11 @@ package hu.elte.issuetracker.controllers;
 import hu.elte.issuetracker.entities.Puzzle;
 import hu.elte.issuetracker.repositories.PuzzleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Null;
 import java.util.Optional;
 
 @RestController
@@ -25,25 +27,27 @@ public class PuzzleController {
         Optional<Puzzle> puzzle = puzzleRepository.findById(id);
         if (!puzzle.isPresent())
         {
-            ResponseEntity.notFound();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
         return ResponseEntity.ok(puzzle.get());
     }
 
     @PostMapping("")
     public ResponseEntity<Puzzle> post(@RequestBody Puzzle puzzle) {
-        //TODO: do not insert if name already exists
+        Puzzle puzzleWithName = puzzleRepository.findByName(puzzle.getName());
+        if(puzzle!=null){
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }
         Puzzle newPuzzle = puzzleRepository.save(puzzle);
         return ResponseEntity.ok(newPuzzle);
-    }
+}
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Integer id) {
         Optional<Puzzle> puzzle = puzzleRepository.findById(id);
         if (!puzzle.isPresent())
         {
-            ResponseEntity.notFound();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         puzzleRepository.delete(puzzle.get());
@@ -52,14 +56,14 @@ public class PuzzleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Puzzle> put(@PathVariable Integer id, @RequestBody Puzzle foo) {
+    public ResponseEntity<Puzzle> put(@PathVariable Integer id, @RequestBody Puzzle puzzle) {
         Optional<Puzzle> oldPuzzle = puzzleRepository.findById(id);
         if (!oldPuzzle.isPresent())
         {
-            ResponseEntity.notFound();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        foo.setId(id);
-        return ResponseEntity.ok(puzzleRepository.save(foo));
+        puzzle.setId(id);
+        return ResponseEntity.ok(puzzleRepository.save(puzzle));
     }
 }
