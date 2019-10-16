@@ -1,21 +1,26 @@
 package hu.elte.issuetracker.utilities;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 // TODO: ennek service-nek kéne lennie
 public class SolveManager {
 
     public static String millisToReadable(int time) {
-        /* TODO: idő ezredmásodpercekben -> HH:MM:SS.mmm alakra hozni
-            pl.:0 -> "0.000"
-                1000 -> "1.000"
-                2512 -> "2.512"
-                12999 -> "12.999"
-                61000 -> "1:01.000"
-                120000 -> "2:00.000"
-            Ha találsz pont ilyet akkor használd, ha nem akkor csináld meg.
-        */
-        return "";
+        Date date = new Date(time);
+        DateFormat formatter = new SimpleDateFormat("H:mm:ss.SSS");
+
+        if(time < 60000)
+            formatter = new SimpleDateFormat("s.SSS");
+        if(time >= 60000 && time < 3600000)
+            formatter = new SimpleDateFormat("m:ss.SSS");
+
+        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String dateFormatted = formatter.format(date);
+        return dateFormatted;
     }
 
     public static int readableToMillis(String time) {
