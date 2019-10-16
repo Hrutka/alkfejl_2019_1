@@ -3,6 +3,7 @@ package hu.elte.issuetracker.controllers;
 import hu.elte.issuetracker.entities.Puzzle;
 import hu.elte.issuetracker.repositories.PuzzleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class PuzzleController {
         Optional<Puzzle> puzzle = puzzleRepository.findById(id);
         if (!puzzle.isPresent())
         {
-            ResponseEntity.notFound();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         return ResponseEntity.ok(puzzle.get());
@@ -43,7 +44,7 @@ public class PuzzleController {
         Optional<Puzzle> puzzle = puzzleRepository.findById(id);
         if (!puzzle.isPresent())
         {
-            ResponseEntity.notFound();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         puzzleRepository.delete(puzzle.get());
@@ -56,7 +57,7 @@ public class PuzzleController {
         Optional<Puzzle> oldPuzzle = puzzleRepository.findById(id);
         if (!oldPuzzle.isPresent())
         {
-            ResponseEntity.notFound();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         foo.setId(id);
