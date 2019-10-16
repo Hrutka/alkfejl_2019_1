@@ -10,7 +10,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,23 +18,22 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Solve implements Serializable {
+public class User {
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column
+    @Column(unique = true)
     @NotNull
-    private int time;
+    private String name;
 
-    @ManyToOne
-    @JoinColumn
-    @JsonIgnore
-    private Session session;
+    @OneToMany(mappedBy = "user")
+    private List<Session> sessions;
 
-    @ManyToMany(mappedBy = "likedSolves")
+    @ManyToMany
+    @JoinTable
     @JsonIgnore
-    private List<User> likedByUser;
+    private List<Solve> likedSolves;
 
     @Column(updatable = false)
     @CreationTimestamp

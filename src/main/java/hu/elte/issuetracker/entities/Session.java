@@ -1,5 +1,6 @@
 package hu.elte.issuetracker.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,11 +23,17 @@ public class Session implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    //TODO: ManyToOne with Puzzle entity
-    //private Puzzle puzzle;
+    @JoinColumn
+    @ManyToOne
+    private Puzzle puzzle;
+
+    @JoinColumn
+    @ManyToOne
+    @JsonIgnore
+    private User user;
 
     @OneToMany(mappedBy = "session")
-    @Column()
+    @Column
     private List<Solve> solves;
 
     @Column(updatable = false)
