@@ -19,13 +19,34 @@ public class SolveManager {
             formatter = new SimpleDateFormat("m:ss.SSS");
 
         formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-        String dateFormatted = formatter.format(date);
-        return dateFormatted;
+        return formatter.format(date);
     }
 
     public static int readableToMillis(String time) {
-        // TODO: HH:MM:SS.mmm -> ezredmásodpercekre
-        return -1;
+        String[] sepByPoint = time.split("\\.");
+
+        int millis = Integer.parseInt(sepByPoint[1].toString());
+
+        String[] sepByColon = sepByPoint[0].split(":");
+
+        int hmsInMillis=0;
+        switch (sepByColon.length){
+            case 0:
+                break;
+            case 1:
+                hmsInMillis = Integer.parseInt(sepByColon[0])*1000;
+                break;
+            case 2:
+                hmsInMillis += Integer.parseInt(sepByColon[1])*1000;
+                hmsInMillis += Integer.parseInt(sepByColon[0])*60000;
+                break;
+            case 3:
+                hmsInMillis += Integer.parseInt(sepByColon[2])*1000;
+                hmsInMillis += Integer.parseInt(sepByColon[1])*60000;
+                hmsInMillis += Integer.parseInt(sepByColon[0])*3600000;
+                break;
+        }
+        return millis+hmsInMillis;
     }
 
     public static int avg(List<Integer> times) {
@@ -37,8 +58,7 @@ public class SolveManager {
     }
 
     // Legjobb és legrosszabb idők kivételével átlagolás
-    public static int bo(List<Integer> times) {
-        //TODO: tesztelni, hogy jó-e
+    public static int officialAvg(List<Integer> times) {
         //Legalább 3 idő szükséges
         if (times.size() < 3) {
             return -1;
@@ -54,6 +74,6 @@ public class SolveManager {
         sum -= max;
         sum -= min;
 
-        return Math.round((float)sum / times.size()-2.0f);
+        return Math.round((float)sum / (times.size()-2.0f));
     }
 }
