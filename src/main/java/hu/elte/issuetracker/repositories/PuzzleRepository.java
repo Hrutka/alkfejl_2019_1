@@ -3,6 +3,8 @@ package hu.elte.issuetracker.repositories;
 import hu.elte.issuetracker.entities.Puzzle;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.Optional;
+
 public interface PuzzleRepository extends CrudRepository<Puzzle, Integer> {
-    Puzzle findByName(String name);
+    Optional<Puzzle> findByName(String name);
 }

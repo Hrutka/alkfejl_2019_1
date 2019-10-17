@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Null;
 import java.util.Optional;
 
 @RestController
@@ -28,13 +29,15 @@ public class PuzzleController {
         {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
         return ResponseEntity.ok(puzzle.get());
     }
 
     @PostMapping("")
     public ResponseEntity<Puzzle> post(@RequestBody Puzzle puzzle) {
-        //TODO: do not insert if name already exists
+        Optional<Puzzle> puzzleWithName = puzzleRepository.findByName(puzzle.getName());
+        if(puzzleWithName.isPresent()){
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }
         Puzzle newPuzzle = puzzleRepository.save(puzzle);
         return ResponseEntity.ok(newPuzzle);
     }
@@ -49,18 +52,19 @@ public class PuzzleController {
 
         puzzleRepository.delete(puzzle.get());
 
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Puzzle> put(@PathVariable Integer id, @RequestBody Puzzle foo) {
+    public ResponseEntity<Puzzle> put(@PathVariable Integer id, @RequestBody Puzzle puzzle) {
+        // TODO ha PUT-al probalsz meg adatoakt duplikalni akkor kapsz egy 500-ast
         Optional<Puzzle> oldPuzzle = puzzleRepository.findById(id);
         if (!oldPuzzle.isPresent())
         {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        foo.setId(id);
-        return ResponseEntity.ok(puzzleRepository.save(foo));
+        puzzle.setId(id);
+        return ResponseEntity.ok(puzzleRepository.save(puzzle));
     }
 }
