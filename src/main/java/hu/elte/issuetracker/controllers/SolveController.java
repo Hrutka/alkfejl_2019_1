@@ -32,7 +32,6 @@ public class SolveController {
         return ResponseEntity.ok(solve.get());
     }
 
-    // TODO Ezt hogyan kell ellenőrizni? Hogy adjak be neki Sessiont?
     @PostMapping("")
     public ResponseEntity<Solve> post(@RequestBody Solve solve) {
         Solve newSolve = solveRepository.save(solve);

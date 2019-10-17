@@ -23,13 +23,12 @@ public class Session implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @JoinColumn
     @ManyToOne
+    @JoinColumn
     private Puzzle puzzle;
 
     @JoinColumn
     @ManyToOne
-    @JsonIgnore
     private User user;
 
     @OneToMany(mappedBy = "session")

@@ -1,7 +1,9 @@
 package hu.elte.issuetracker.controllers;
 
 import hu.elte.issuetracker.entities.Puzzle;
+import hu.elte.issuetracker.entities.Session;
 import hu.elte.issuetracker.repositories.PuzzleRepository;
+import hu.elte.issuetracker.repositories.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,9 @@ public class PuzzleController {
 
     @Autowired
     private PuzzleRepository puzzleRepository;
+
+    @Autowired
+    private SessionRepository sessionRepository;
 
     @GetMapping("")
     public ResponseEntity<Iterable<Puzzle>> getAll() {
@@ -66,5 +71,29 @@ public class PuzzleController {
 
         puzzle.setId(id);
         return ResponseEntity.ok(puzzleRepository.save(puzzle));
+    }
+
+    @GetMapping("/{id}/sessions")
+    public ResponseEntity getSessions(@PathVariable Integer id) {
+        Optional<Puzzle> oPuzzle = puzzleRepository.findById(id);
+        if (oPuzzle.isPresent()) {
+            return ResponseEntity.ok(oPuzzle.get().getSessions());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @PostMapping("/{puzzleId}/sessions/{sessionId}")
+    public ResponseEntity insertSolve(@PathVariable Integer puzzleId, @PathVariable Integer sessionId) {
+        Optional<Puzzle> oPuzzle = puzzleRepository.findById(puzzleId);
+        Optional<Session> oSession = sessionRepository.findById(sessionId);
+        if (oPuzzle.isPresent() && oSession.isPresent()) {
+            Puzzle puzzle = oPuzzle.get();
+            Session session = oSession.get();
+            session.setPuzzle(puzzle);
+            return ResponseEntity.ok(sessionRepository.save(session));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }

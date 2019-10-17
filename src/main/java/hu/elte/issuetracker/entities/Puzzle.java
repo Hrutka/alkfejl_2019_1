@@ -1,5 +1,6 @@
 package hu.elte.issuetracker.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -7,13 +8,11 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -29,8 +28,10 @@ public class Puzzle implements Serializable {
     @NotNull
     private String name;
 
-    @Column(nullable = false, columnDefinition = "boolean default true")
-    private boolean modifiable;
+    @OneToMany(mappedBy = "puzzle")
+    @Column
+    @JsonIgnore
+    private List<Session> sessions;
 
     @Column(updatable = false)
     @CreationTimestamp

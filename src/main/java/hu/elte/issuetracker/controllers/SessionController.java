@@ -3,6 +3,7 @@ package hu.elte.issuetracker.controllers;
 import hu.elte.issuetracker.entities.Session;
 import hu.elte.issuetracker.entities.Solve;
 import hu.elte.issuetracker.repositories.SessionRepository;
+import hu.elte.issuetracker.repositories.SolveRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,9 @@ public class SessionController {
 
     @Autowired
     private SessionRepository sessionRepository;
+
+    @Autowired
+    private SolveRepository solveRepository;
 
     @GetMapping("")
     public ResponseEntity<Iterable<Session>> getAll() {
@@ -32,8 +36,6 @@ public class SessionController {
         return ResponseEntity.ok(session.get());
     }
 
-
-    // TODO Ezt hogyan kell ellenőrizni? Hogy adjak be neki Solveokat??
     @PostMapping("")
     public ResponseEntity<Session> post(@RequestBody Session session) {
         Session newSession  = sessionRepository.save(session);
@@ -65,4 +67,25 @@ public class SessionController {
         return ResponseEntity.ok(sessionRepository.save(session));
     }
 
+    @GetMapping("/{id}/solves")
+    public ResponseEntity getSolves(@PathVariable Integer id) {
+        Optional<Session> oSession = sessionRepository.findById(id);
+        if (oSession.isPresent()) {
+            return ResponseEntity.ok(oSession.get().getSolves());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @PostMapping("/{id}/solves")
+    public ResponseEntity insertSolve(@PathVariable Integer id, @RequestBody Solve solve) {
+        Optional<Session> oSession = sessionRepository.findById(id);
+        if (oSession.isPresent()) {
+            Session session = oSession.get();
+            solve.setSession(session);
+            return ResponseEntity.ok(solveRepository.save(solve));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 }
