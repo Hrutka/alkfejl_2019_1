@@ -1,3 +1,4 @@
+# Átáltunk erre a repora: https://github.com/Hrutka/alkfejl_beadando
 # Alkalmazások fejlesztése beadandó feladat
 *Molnár Adrián és Molnár Dominik Szilveszter munkája*
 ### Rubik-kocka timer app
